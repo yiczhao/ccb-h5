@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>建行“百城万店”</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bankactivity.css"/>
+		
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			.mui-pages {
+				height: auto;
+			}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			}
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				height: 44px;
+				background-color: #f7f7f8;
+			}
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+			}
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+			}
+			.mui-navbar .mui-bar .mui-title {
+				display: inline-block;
+				width: auto;
+			}
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				width: 16px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			.mui-page-shadow {
+				background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+			}
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;
+				transition: opacity 300ms ease, transform 300ms ease;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			.mui-page .mui-table-view:first-child {
+				margin-top: 0px;
+			}
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+            .AddressContent{
+            	height: 100%;
+				overflow: hidden;
+            }
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/mui.indexedlist.css"/>
+	</head>
+
+	<body class="mui-fullscreen bank-activity">
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<!--页面主结构结束-->
+		<!--单页面开始-->
+		<div id="setting" class="mui-page">
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<div class="bank-activity-head">
+					<div class="bank-activity-content">
+						<a href="#Address"><span class="mui-icon bank-icon-location AddressTxt" id="AddressTxt" data-flag='false'>全国</span></a>
+						<a href="#SearchList"><input type="text" class="bank-activity-txtsearch" id="bank-activity-txtsearch" placeholder="请输入商户名" /></a>
+					</div>
+					<div class="bank-type-content">
+						<div class="bank-type-select">
+							<span>全部分类</span>
+							<div class="mui-scroll-wrapper mui-hidden">
+								<div class="mui-scroll">
+									<p data-value='' class="bank-type-item">全部分类</p>
+									<p data-value='1' class="bank-type-item">特色餐饮</p>
+									<p data-value='2' class="bank-type-item">时尚购物</p>
+									<p data-value='3' class="bank-type-item">生活服务</p>
+									<p data-value='4' class="bank-type-item">精品酒店</p>
+									<p data-value='5' class="bank-type-item">休闲娱乐</p>
+									<p data-value='6' class="bank-type-item">运动健身</p>
+									<p data-value='7' class="bank-type-item">美容养生</p>
+									<p data-value='8' class="bank-type-item">母婴亲子</p>
+									<p data-value='9' class="bank-type-item">旅游出行</p>
+									<p data-value='10' class="bank-type-item">家电数码</p>
+									<p data-value='11' class="bank-type-item">教育培训</p>
+								</div>
+							</div>
+						</div>
+				    </div>
+			    </div>
+				<div class="mui-scroll-wrapper" id="pullrefresh">
+					<div class="mui-scroll bank-shop-list">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media">
+								<a href="javascript:;">
+									<div class="mui-media-body mui-pull-left">
+										有家酸菜鱼
+										<p class='mui-ellipsis bank-icon-location'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+									</div>
+									<div class="bank-content-right">
+										<span>8.5<i>折</i></span>
+										<span class="bank-card">建行龙卡</span>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			    <div class="bank-activity-footer">
+			    	<span id="ActivityRule">活动规则</span>
+			    	<span>立即申请信用卡</span>
+			    </div>
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+		<!--单页面结束-->
+		<div id="Address" class="mui-page">
+			<div class="mui-page-content AddressContent" >
+				<div id='list' class="mui-indexed-list">
+					<div class="mui-indexed-list-search mui-input-row mui-search">
+						<a class="mui-icon mui-icon-left-nav mui-action-back">返回</a>
+						<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="输入城市">
+					</div>
+					<div class="mui-indexed-list-bar">
+						<a>热门</a>
+						<a>A</a>
+						<a>B</a>
+						<a>C</a>
+						<a>D</a>
+						<a>E</a>
+						<a>F</a>
+						<a>G</a>
+						<a>H</a>
+						<a>I</a>
+						<a>J</a>
+						<a>K</a>
+						<a>L</a>
+						<a>M</a>
+						<a>N</a>
+						<a>O</a>
+						<a>P</a>
+						<a>Q</a>
+						<a>R</a>
+						<a>S</a>
+						<a>T</a>
+						<a>U</a>
+						<a>V</a>
+						<a>W</a>
+						<a>X</a>
+						<a>Y</a>
+						<a>Z</a>
+					</div>
+					<div class="mui-indexed-list-alert"></div>
+					<div class="mui-indexed-list-inner">
+						<div class="mui-indexeed-location-text">
+							<span id="locationTxt" class="AddressTxt">苏州</span>
+							<span id="locationGps">GPS定位</em>
+						</div>
+						
+						<div class="mui-indexed-list-empty-alert">没有数据</div>
+						<ul class="mui-table-view mar-bor-0">
+							<li data-group="热门" class="mui-table-view-divider mui-indexed-list-group mui-tags-pad" id="city-hot-group">国内热门城市 </li>
+							<li data-tags="热门" class="mui-table-view-cell mui-indexed-list-item mui-bg-f7" id='city-hot-list'>
+								<div class="mui-city">
+									<div class="mui-city-list">
+										<span class="mui-action-back">北京</span>
+										<span>上海</span>
+										<span>南京</span>
+										<span>苏州</span>
+										<span>北京</span>
+										<span>上海</span>
+										<span>南京</span>
+										<span>苏州</span>
+										<span>北京</span>
+										<span>上海</span>
+										<span>南京</span>
+										<span>苏州</span>
+									</div>
+								</div>
+							</li>
+					
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="SearchList" class="mui-page">
+			<div class="mui-page-content">
+				<div class="bank-activity-content">
+					<a href="#Address"><span class="mui-icon bank-icon-location AddressTxt">苏州</span></a>
+					<input type="text" class="bank-activity-txtsearch" id="searchShopTxt" placeholder="请输入商户名" />
+				</div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" style="text-align: center;">请输入关键字</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=633ed45aa1cc022ce7b66beb43392d00"></script>
+	<script type="text/javascript" src="js/zepto.js" ></script>
+	<script type="text/javascript" src="js/dataHandle.js" ></script> 
+	<script src="js/mui.min.js "></script>
+	<script type="text/javascript" src="js/rem.js" ></script>
+	<script src="js/mui.view.js "></script>
+	<script>
+
+		
+	</script>
+	<script type="text/javascript" src="js/mui.indexedlist.js" ></script>
+	<script type="text/javascript">
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+	
+		//初始化单页view
+		var viewApi = mui('#app').view({
+			defaultPage: '#setting'
+		});
+		//初始化单页的区域滚动
+		mui('.mui-scroll-wrapper').scroll();
+	    var view = viewApi.view;
+	    (function ($, doc) {
+	        //处理view的后退与webview后退
+	        var oldBack = $.back;
+	        $.back = function () {
+	            if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+	                viewApi.back();
+	            } else { //执行webview后退
+	                oldBack();
+	            }
+	        };
+	        //监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+	        //第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+	        view.addEventListener('pageBeforeShow', function (e) {
+	            //				console.log(e.detail.page.id + ' beforeShow');
+	        });
+	        view.addEventListener('pageShow', function (e) {
+	            //				console.log(e.detail.page.id + ' show');
+	        });
+	        view.addEventListener('pageBeforeBack', function (e) {
+	            //				console.log(e.detail.page.id + ' beforeBack');
+	        });
+	        view.addEventListener('pageBack', function (e) {
+	            //				console.log(e.detail.page.id + ' back');
+	        });
+	    })(mui, document);
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				var cells = document.getElementById('pullrefresh').querySelectorAll('.mui-table-view-cell');
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells >= arrayBuffer.length)); //参数为true代表没有更多数据了。
+				var table = document.getElementById('pullrefresh').querySelector('.mui-table-view');
+				var i = cells.length;
+				var len= i + 10;
+				if(len < arrayBuffer.length){
+					len = len;
+				}else{
+					len= arrayBuffer.length;
+				}
+				for (; i < len; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media';
+					var _html='<a href="javascript:;">';
+					_html+='<div class="mui-media-body mui-pull-left">';
+					_html+= arrayBuffer[i].StoreName;	
+					_html+='<p class="mui-ellipsis bank-icon-location">'+ arrayBuffer[i].MerchantAddress +'</p>';
+					_html+='</div>';
+					_html+='<div class="bank-content-right">';
+					_html+='<span>'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
+					_html+='<span class="bank-card">建行龙卡</span>';
+					_html+='</div>';
+					_html+='</a>';
+					li.innerHTML = _html;
+					table.appendChild(li);
+				}
+			}, 1500);
+		}
+
+
+		mui.ready(function() {
+			var bodyH = document.querySelector('.AddressContent');
+			var list = document.getElementById('list');
+			//calc hieght
+			list.style.height = document.body.offsetHeight + 'px';
+			//create
+			window.indexedList = new mui.IndexedList(list);
+
+			document.getElementById("ActivityRule").addEventListener('tap', function() {
+				var _html='<div class="bank-rule-flow"><div class="bank-rule-content">';	
+				_html +='<p class="bank-rule-tips">在指定商户刷龙卡信用卡，<i>每笔消费金额100元（含）以内部分，享第一次7折、第二次5折、第三次3折，</i>活动期间连环享受，每天限享1次。</p>';
+				_html +='<p class="bank-rule-list">连环折优惠，自第一笔消费开始，消费金额100元（含）以内部分可依次享受7折、5折、3折连环优惠，第4次刷卡将重新开始累计。</p>';
+				_html +='<p class="bank-rule-list">活动期间每客户每天限享受一档连环折1次，每客户在活动期间最多享受18轮连环折优惠。每笔消费金额超出100元的部分，不享受连环折优惠。</p>';
+				_html +='<p class="bank-rule-list">同一客户以客户在刷卡交易时在POS机上输入的手机号、卡号前6位和卡号后4位作为身份识别，如因持卡人前后更换手机号造成信息无法匹配的，责任由持卡人自负。</p>';
+				_html +='<p class="bank-rule-list">有关售货、商品服务等问题执行相关商业法律规定，由持卡人与商户协商解决，建设银行不承担责任。</p>';
+				_html +='<p class="bank-rule-list">持卡人若在活动期间有逾期还款、违反中国建设银行龙卡信用卡章程、领用协议或其他约定条款、或出现账户状态不正常，建行有权取消其参加活动的资格。</p>';
+				_html +='<p class="bank-rule-list">对于持卡人存在非真实交易、分单交易等恶意规避活动规则的行为，建设银行有权取消其参加活动的资格，并保留采取相应法律措施的权利。</p>';
+				_html +='<p class="bank-rule-list">建设银行有权依据法律、法规、规章或业务需要终止或取消此次活动或者修改活动方案，并经相关途径公告后生效。在法律许可范围内，建设银行保留对本活动的解释权。</p>';
+				_html +='</div></div>'
+				mui.alert(_html, '活动规则');
+			});
+              
+            document.getElementById('searchShopTxt').addEventListener('input',function(){
+            	shopList(this.value);
+            });
+            
+            document.getElementById('locationGps').addEventListener('tap',function(){
+            	localStorage.clear();
+            	$('#locationTxt').addClass('mui-hidden');
+            	this.innerHTML='正在定位中...'
+            	getLoction();
+            });
+            
+            
+
+                
+           
+		});
+	</script>
+</html>
