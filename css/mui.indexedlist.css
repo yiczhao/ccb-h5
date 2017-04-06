@@ -57,6 +57,11 @@
     padding: 8px 12px 12px 12px;
 	z-index: 15;
 }
+.mui-indexed-list-search.mui-input-row.mui-search{
+    padding-left: 65px;
+}
+
+
 .mui-indexed-list-search.mui-search:before {
 	margin-top: -10px;
 }
@@ -65,8 +70,6 @@
 	border-radius: 4px;
 	margin: 0px;
 	background-color: #E8E8E8;
-	margin-left: 55px;
-    width: auto;
 }
 
 .mui-indexed-list-search .mui-icon{
@@ -85,7 +88,9 @@
 	line-height: 52px;
 	height: 52px;
 	margin-left: 56px;
+	font-size: 13px;
 }
+
 .mui-indexed-list-bar {
 	width: 25px;
 	color: #007AFF;
@@ -185,7 +190,7 @@
 }
 .mui-input-row.mui-search .mui-icon-clear{
 	top: 15px;
-    right: 10px;
+    right: 20px;
     color: #FF942C;
 }
 .mui-bg-f7{
@@ -202,6 +207,10 @@
 }
 .mui-indexed-list-bar.active{
 	background-color: transparent !important;
+}
+
+.mar-bor-0.mui-table-view:after{
+	height: 0;
 }
 
 

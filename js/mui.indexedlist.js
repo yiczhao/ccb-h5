@@ -120,7 +120,7 @@
 			var selectorBuffer = [];
 			var groupIndex = -1;
 			var itemCount = 0;
-			var liArray = self.el.liArray;
+			var liArray = [].slice.call(self.box.querySelectorAll(classSelector('indexed-list-inner') + ' li'));
 			var itemTotal = liArray.length;
 			self.hiddenGroups = [];
 			var checkGroup = function(currentIndex, last) {

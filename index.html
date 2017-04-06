@@ -143,10 +143,10 @@
 				<div class="bank-activity-head">
 					<div class="bank-activity-content">
 						<a href="#Address"><span class="mui-icon bank-icon-location AddressTxt" id="AddressTxt" data-flag='false'>全国</span></a>
-						<a href="#SearchList"><input type="text" class="bank-activity-txtsearch" id="bank-activity-txtsearch" placeholder="请输入商户名" /></a>
+						<a href="#SearchList"><input type="text" class="bank-activity-txtsearch" readonly="readonly" id="bank-activity-txtsearch" placeholder="请输入商户名" /></a>
 					</div>
 					<div class="bank-type-content">
-						<div class="bank-type-select">
+						<div class="bank-type-select" id="bank-type-select">
 							<span>全部分类</span>
 							<div class="mui-scroll-wrapper mui-hidden">
 								<div class="mui-scroll">
@@ -170,17 +170,8 @@
 				<div class="mui-scroll-wrapper" id="pullrefresh">
 					<div class="mui-scroll bank-shop-list">
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media">
-								<a href="javascript:;">
-									<div class="mui-media-body mui-pull-left">
-										有家酸菜鱼
-										<p class='mui-ellipsis bank-icon-location'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-									</div>
-									<div class="bank-content-right">
-										<span>8.5<i>折</i></span>
-										<span class="bank-card">建行龙卡</span>
-									</div>
-								</a>
+							<li class="mui-table-view-cell mui-media" style="font-size: 14px;">
+								数据加载中...
 							</li>
 						</ul>
 					</div>
@@ -198,7 +189,7 @@
 				<div id='list' class="mui-indexed-list">
 					<div class="mui-indexed-list-search mui-input-row mui-search">
 						<a class="mui-icon mui-icon-left-nav mui-action-back">返回</a>
-						<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="输入城市">
+						<input type="search" id="citySearch" class="mui-input-clear mui-indexed-list-search-input" placeholder="输入城市名和拼音查询">
 					</div>
 					<div class="mui-indexed-list-bar">
 						<a>热门</a>
@@ -237,27 +228,20 @@
 						</div>
 						
 						<div class="mui-indexed-list-empty-alert">没有数据</div>
-						<ul class="mui-table-view mar-bor-0">
+						<ul class="mui-table-view mar-bor-0" id="mui-location-list">
 							<li data-group="热门" class="mui-table-view-divider mui-indexed-list-group mui-tags-pad" id="city-hot-group">国内热门城市 </li>
 							<li data-tags="热门" class="mui-table-view-cell mui-indexed-list-item mui-bg-f7" id='city-hot-list'>
 								<div class="mui-city">
 									<div class="mui-city-list">
-										<span class="mui-action-back">北京</span>
-										<span>上海</span>
-										<span>南京</span>
-										<span>苏州</span>
-										<span>北京</span>
-										<span>上海</span>
-										<span>南京</span>
-										<span>苏州</span>
-										<span>北京</span>
-										<span>上海</span>
-										<span>南京</span>
-										<span>苏州</span>
+										<span class="mui-action-back">上海</span>
+										<span>昆明</span>
+										<span>石家庄</span>
+										<span>武汉</span>
+										<span>重庆</span>
+										<span>长沙</span>
 									</div>
 								</div>
 							</li>
-					
 						</ul>
 					</div>
 				</div>
@@ -269,6 +253,7 @@
 				<div class="bank-activity-content">
 					<a href="#Address"><span class="mui-icon bank-icon-location AddressTxt">苏州</span></a>
 					<input type="text" class="bank-activity-txtsearch" id="searchShopTxt" placeholder="请输入商户名" />
+					<em id="shopIcon" class="mui-icon mui-icon-clear mui-hidden"></em>
 				</div>
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
@@ -279,6 +264,28 @@
 				</div>
 			</div>
 		</div>
+		
+		<div id="alertBox" class="alerttips">
+			<div class="alert-inner">
+				<div class="alert-title">活动规则</div>
+				<div class="alert-text">
+					<div class="bank-rule-flow">
+						<div class="bank-rule-content">
+							<p class="bank-rule-tips">在指定商户刷龙卡信用卡，<i>每笔消费金额100元（含）以内部分，享第一次7折、第二次5折、第三次3折，</i>活动期间连环享受，每天限享1次。</p>
+							<p class="bank-rule-list">连环折优惠，自第一笔消费开始，消费金额100元（含）以内部分可依次享受7折、5折、3折连环优惠，第4次刷卡将重新开始累计。</p>
+							<p class="bank-rule-list">活动期间每客户每天限享受一档连环折1次，每客户在活动期间最多享受18轮连环折优惠。每笔消费金额超出100元的部分，不享受连环折优惠。</p>
+							<p class="bank-rule-list">同一客户以客户在刷卡交易时在POS机上输入的手机号、卡号前6位和卡号后4位作为身份识别，如因持卡人前后更换手机号造成信息无法匹配的，责任由持卡人自负。</p>
+							<p class="bank-rule-list">有关售货、商品服务等问题执行相关商业法律规定，由持卡人与商户协商解决，建设银行不承担责任。</p>
+							<p class="bank-rule-list">持卡人若在活动期间有逾期还款、违反中国建设银行龙卡信用卡章程、领用协议或其他约定条款、或出现账户状态不正常，建行有权取消其参加活动的资格。</p>
+							<p class="bank-rule-list">对于持卡人存在非真实交易、分单交易等恶意规避活动规则的行为，建设银行有权取消其参加活动的资格，并保留采取相应法律措施的权利。</p>
+							<p class="bank-rule-list">建设银行有权依据法律、法规、规章或业务需要终止或取消此次活动或者修改活动方案，并经相关途径公告后生效。在法律许可范围内，建设银行保留对本活动的解释权。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="alert-buttons"><span class="alert-button">知道了</span></div>
+		</div>
+		<div class="alert-backdrop"></div>
 	</body>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=633ed45aa1cc022ce7b66beb43392d00"></script>
 	<script type="text/javascript" src="js/zepto.js" ></script>
@@ -286,10 +293,6 @@
 	<script src="js/mui.min.js "></script>
 	<script type="text/javascript" src="js/rem.js" ></script>
 	<script src="js/mui.view.js "></script>
-	<script>
-
-		
-	</script>
 	<script type="text/javascript" src="js/mui.indexedlist.js" ></script>
 	<script type="text/javascript">
 		mui.init({
@@ -307,7 +310,8 @@
 			defaultPage: '#setting'
 		});
 		//初始化单页的区域滚动
-		mui('.mui-scroll-wrapper').scroll();
+		mui('.bank-type-select .mui-scroll-wrapper').scroll();
+		mui('#SearchList .mui-scroll-wrapper').scroll();
 	    var view = viewApi.view;
 	    (function ($, doc) {
 	        //处理view的后退与webview后退
@@ -333,6 +337,10 @@
 	        view.addEventListener('pageBack', function (e) {
 	            //				console.log(e.detail.page.id + ' back');
 	        });
+	        
+
+	        
+	        
 	    })(mui, document);
 		/**
 		 * 上拉加载具体业务实现
@@ -377,22 +385,22 @@
 			//create
 			window.indexedList = new mui.IndexedList(list);
 
-			document.getElementById("ActivityRule").addEventListener('tap', function() {
-				var _html='<div class="bank-rule-flow"><div class="bank-rule-content">';	
-				_html +='<p class="bank-rule-tips">在指定商户刷龙卡信用卡，<i>每笔消费金额100元（含）以内部分，享第一次7折、第二次5折、第三次3折，</i>活动期间连环享受，每天限享1次。</p>';
-				_html +='<p class="bank-rule-list">连环折优惠，自第一笔消费开始，消费金额100元（含）以内部分可依次享受7折、5折、3折连环优惠，第4次刷卡将重新开始累计。</p>';
-				_html +='<p class="bank-rule-list">活动期间每客户每天限享受一档连环折1次，每客户在活动期间最多享受18轮连环折优惠。每笔消费金额超出100元的部分，不享受连环折优惠。</p>';
-				_html +='<p class="bank-rule-list">同一客户以客户在刷卡交易时在POS机上输入的手机号、卡号前6位和卡号后4位作为身份识别，如因持卡人前后更换手机号造成信息无法匹配的，责任由持卡人自负。</p>';
-				_html +='<p class="bank-rule-list">有关售货、商品服务等问题执行相关商业法律规定，由持卡人与商户协商解决，建设银行不承担责任。</p>';
-				_html +='<p class="bank-rule-list">持卡人若在活动期间有逾期还款、违反中国建设银行龙卡信用卡章程、领用协议或其他约定条款、或出现账户状态不正常，建行有权取消其参加活动的资格。</p>';
-				_html +='<p class="bank-rule-list">对于持卡人存在非真实交易、分单交易等恶意规避活动规则的行为，建设银行有权取消其参加活动的资格，并保留采取相应法律措施的权利。</p>';
-				_html +='<p class="bank-rule-list">建设银行有权依据法律、法规、规章或业务需要终止或取消此次活动或者修改活动方案，并经相关途径公告后生效。在法律许可范围内，建设银行保留对本活动的解释权。</p>';
-				_html +='</div></div>'
-				mui.alert(_html, '活动规则');
-			});
+
               
             document.getElementById('searchShopTxt').addEventListener('input',function(){
             	shopList(this.value);
+            	if(this.value.length>0){
+            		$('#shopIcon').removeClass('mui-hidden');
+            	}else{
+            		$('#shopIcon').addClass('mui-hidden');
+            	}
+            });
+            
+            document.getElementById('shopIcon').addEventListener('tap',function(){
+            	$('#searchShopTxt').val('');
+            	$('#bank-activity-txtsearch').val('');
+            	shopList($('#searchShopTxt').val(''));
+            	$('#shopIcon').addClass('mui-hidden');
             });
             
             document.getElementById('locationGps').addEventListener('tap',function(){
@@ -400,11 +408,11 @@
             	$('#locationTxt').addClass('mui-hidden');
             	this.innerHTML='正在定位中...'
             	getLoction();
+            	$('#searchShopTxt').val('');
+				$('#bank-activity-txtsearch').val('');
+				$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
             });
-            
-            
-
-                
+                         
            
 		});
 	</script>

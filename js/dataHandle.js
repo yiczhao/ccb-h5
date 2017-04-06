@@ -8,37 +8,86 @@ var shopBuffer =[];
 getLoction();
 //getData()
 
-
+$('body').on('tap','.mui-page-content',function(){
+	if($('#bank-type-select > span').attr('data-flag')){
+		$('#bank-type-select').removeClass('active').children('.mui-scroll-wrapper').addClass('mui-hidden');
+		$('#bank-type-select > span').removeAttr('data-flag');
+	}
+});
 
 
 
 $('.bank-type-select').on('tap', function(){
 	var _this=$(this).find('span')
-	_this.next().removeClass('mui-hidden').parent().addClass('active'); 
+	if(_this.next().hasClass('mui-hidden')){
+		_this.next().removeClass('mui-hidden').parent().addClass('active'); 
+		setTimeout(function(){
+			_this.attr('data-flag',1)
+		},100);	
+	}
+
 });
 
 
-$('.bank-type-select').on('tap', 'p', function(){
+
+
+$('.bank-type-select').on('tap', 'p', function(e){
 	$(this).parent().parent().addClass('mui-hidden').prev().text($(this).text()).parent().removeClass('active'); 
-	handleData($(this).attr('data-value'),listBuffer,2);
+	$('#bank-type-select > span').removeAttr('data-flag');
+	handleData($(this).attr('data-value'),listBuffer,2);	
 });
+
+$("#ActivityRule").on('tap', function() {
+	$('.alert-backdrop,.alerttips').show()
+});
+
+$('.alert-button').on('tap',function(){
+	$('.alert-backdrop,.alerttips').hide()
+})
+
+
+
 
 $('.AddressTxt').on('tap',function(){
 	if($('#AddressTxt').attr('data-flag')=="false"){
 		insertNumber();
 		$('#AddressTxt').attr('data-flag','true');
 	}
+	$('#citySearch').val('').focus().parent().removeClass('mui-active');
+	$('#bank-type-select .mui-scroll-wrapper').addClass('mui-hidden');
+	indexedList.search('');
 });
 
-$('#Address .mui-indexed-list').on('tap','.mui-action-back',function(){
+$('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
 	handleData($(this).attr('data-value'),listArray,1);
-	$('.AddressTxt').text($(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
+	$('.AddressTxt').text($(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')));
+	$('#searchShopTxt').val('');
+	$('#bank-activity-txtsearch').val('');
+	$('#shopIcon').addClass('mui-hidden');
+	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
+	$('#bank-type-select>span').text('全部分类');
+	viewApi.back();
 })
 
-$('#SearchList .mui-scroll-wrapper').on('tap','.mui-action-back',function(){
+$('#Address .mui-city-list').on('tap','span',function(){
+	localStorage.setItem('city',$(this).text())
+	handleData($(this).text(),listArray,1);
+	$('.AddressTxt').text($(this).text());
+	$('#searchShopTxt').val('');
+	$('#bank-activity-txtsearch').val('');
+	$('#shopIcon').addClass('mui-hidden');
+	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
+	$('#bank-type-select>span').text('全部分类');
+	viewApi.back();
+})
 
+
+$('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
+		var temph=$('#SearchList .mui-table-view li').eq(0).html();
+		$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
+		$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
 		var temp=shopBuffer[0];
 		shopBuffer[0]=shopBuffer[$(this).index()];
 		shopBuffer[$(this).index()]=temp;
@@ -47,14 +96,15 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.mui-action-back',function(){
 	}else{
 		handleData(localStorage.getItem('city'),listArray,1);
 	}
-
-	$('#bank-activity-txtsearch').val($('#searchShopTxt').val())
+	viewApi.back();
+	$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
+	$('#bank-type-select>span').text('全部分类');
 });
 
 
 //获取定位
 function getLoction(){
-	if(localStorage.getItem('city')){
+	if(localStorage.getItem('city')&&localStorage.getItem('lo-city')==localStorage.getItem('city')){
 	   $('.AddressTxt').text(localStorage.getItem('city'));
 	   getData();
 	   return false;
@@ -73,10 +123,14 @@ function getLoction(){
 				$('#locationGps').text('GPS定位');
 				$('#locationTxt').removeClass('mui-hidden');
 				localStorage.setItem('city',cityTxt);
+				localStorage.setItem('lo-city',cityTxt);
+				getData();
 			});
 		}else{
 		    $('.AddressTxt').text('全国'); 
+		    getData();
 		}
+		
 	},function(error){
 		var innerHTML='';
 		getData();
@@ -110,7 +164,9 @@ function getData(){
 		async:true,
 		success:function(data){
 			listArray=JSON.parse(data);
-			citySort(listArray);
+			if($('.mui-indexed-list-group').length <= 1){
+				citySort(listArray);
+			}
 			handleData(localStorage.getItem('city'),listArray,1);
 		},
 		error:function(){
@@ -132,7 +188,7 @@ function shopList(keys){
 	    var shopHtml='';
 	    if(shopBuffer.length>0){
 	    	shopBuffer.forEach(function(shop){
-		   	   shopHtml+='<li class="mui-table-view-cell mui-action-back">'+ shop.StoreName +'<span class="mui-pull-right">约1个结果</span></li>'
+		   	   shopHtml+='<li class="mui-table-view-cell shop-action-back">'+ shop.StoreName +'<span class="mui-pull-right">约1个结果</span></li>'
 		    });
 	    }else{
 	    	shopHtml='<li class="mui-table-view-cell mui-action-back">暂无数据！</li>'
@@ -215,7 +271,7 @@ function citySort(data){
 	var cityHtml='';
 	cityBuffer = cityBuffer.unique();	
 	cityBuffer.forEach(function(item){
-		cityHtml+='<li data-value="'+item.TheCity+'" data-tags="'+item.TheCityToCh+'" class="mui-table-view-cell mui-indexed-list-item mui-action-back">'+item.TheCity+'</li>'
+		cityHtml+='<li data-value="'+item.TheCity+'" data-tags="'+item.TheCityToCh+'" class="mui-table-view-cell mui-indexed-list-item bank-action-back">'+item.TheCity+'</li>'
 	});
 	$('#city-hot-list').after(cityHtml);
 }
