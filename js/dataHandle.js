@@ -38,11 +38,21 @@ $('.bank-type-select').on('tap', 'p', function(e){
 });
 
 $("#ActivityRule").on('tap', function() {
+	var _rule='<p class="bank-rule-tips">在指定商户刷龙卡信用卡，<i>每笔消费金额100元（含）以内部分，享第一次7折、第二次5折、第三次3折，</i>活动期间连环享受，每天限享1次。</p>';
+	_rule+='<p class="bank-rule-list">连环折优惠，自第一笔消费开始，消费金额100元（含）以内部分可依次享受7折、5折、3折连环优惠，第4次刷卡将重新开始累计。</p>';
+	_rule+='<p class="bank-rule-list">活动期间每客户每天限享受一档连环折1次，每客户在活动期间最多享受18轮连环折优惠。每笔消费金额超出100元的部分，不享受连环折优惠。</p>';
+	_rule+='<p class="bank-rule-list">同一客户以客户在刷卡交易时在POS机上输入的手机号、卡号前6位和卡号后4位作为身份识别，如因持卡人前后更换手机号造成信息无法匹配的，责任由持卡人自负。</p>';
+	_rule+='<p class="bank-rule-list">有关售货、商品服务等问题执行相关商业法律规定，由持卡人与商户协商解决，建设银行不承担责任。</p>';
+	_rule+='<p class="bank-rule-list">持卡人若在活动期间有逾期还款、违反中国建设银行龙卡信用卡章程、领用协议或其他约定条款、或出现账户状态不正常，建行有权取消其参加活动的资格。</p>';
+	_rule+='<p class="bank-rule-list">对于持卡人存在非真实交易、分单交易等恶意规避活动规则的行为，建设银行有权取消其参加活动的资格，并保留采取相应法律措施的权利。</p>';
+	_rule+='<p class="bank-rule-list">建设银行有权依据法律、法规、规章或业务需要终止或取消此次活动或者修改活动方案，并经相关途径公告后生效。在法律许可范围内，建设银行保留对本活动的解释权。</p>';
+	$('#alertBox .bank-rule-content').append(_rule);
 	$('.alert-backdrop,.alerttips').show()
 });
 
 $('.alert-button').on('tap',function(){
-	$('.alert-backdrop,.alerttips').hide()
+	$('.alert-backdrop,.alerttips').hide();
+	$('#alertBox .bank-rule-content').empty();
 })
 
 
@@ -98,12 +108,33 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 		arrayBuffer=shopBuffer;
 		loadData(shopBuffer);
 	}else{
-		handleData(localStorage.getItem('city'),listArray,1);
+		loadData(shopBuffer);
 	}
 	viewApi.back();
 	$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
 	$('#bank-type-select>span').text('全部分类');
 });
+
+$('#SearchList .bank-icon-arrowleft').on('tap',function(){
+	if(shopBuffer.length>0){
+		var temph=$('#SearchList .mui-table-view li').eq(0).html();
+		$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
+		$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
+		var temp=shopBuffer[0];
+		shopBuffer[0]=shopBuffer[$(this).index()];
+		shopBuffer[$(this).index()]=temp;
+		//listBuffer=shopBuffer;
+		arrayBuffer=shopBuffer;
+		loadData(shopBuffer);
+	}else{
+		loadData(shopBuffer);
+	}
+	viewApi.back();
+	$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
+	$('#bank-type-select>span').text('全部分类');
+})
+
+
 
 
 //获取定位
