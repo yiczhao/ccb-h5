@@ -269,11 +269,7 @@
 			<div class="alert-inner">
 				<div class="alert-title">活动规则</div>
 				<div class="alert-text">
-					<div class="bank-rule-flow">
-						<div class="bank-rule-content">
-							
-						</div>
-					</div>
+					
 				</div>
 			</div>
 			<div class="alert-buttons"><span class="alert-button">知道了</span></div>
@@ -341,7 +337,7 @@
 		function pullupRefresh() {
 			setTimeout(function() {
 				var cells = document.getElementById('pullrefresh').querySelectorAll('.mui-table-view-cell');
-				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells.length >= arrayBuffer.length)); //参数为true代表没有更多数据了。
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells >= arrayBuffer.length)); //参数为true代表没有更多数据了。
 				var table = document.getElementById('pullrefresh').querySelector('.mui-table-view');
 				var i = cells.length;
 				var len= i + 10;

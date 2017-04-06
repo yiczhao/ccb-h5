@@ -185,6 +185,7 @@ i,em{
 .bank-shop-list .mui-media-body{
 	width: 83%;
 	font-size: 0.3rem;
+	text-overflow: ellipsis;
 }
 
 .bank-shop-list .mui-media-body p{
