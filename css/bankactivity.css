@@ -18,6 +18,30 @@ i,em{
 	background-color: #4a92e2;
 	position: relative;
 }
+
+.bank-activity #setting .bank-activity-head .bank-activity-content a:first-child{
+	display: block;
+}
+
+.bank-activity #setting .bank-activity-head .bank-activity-content a:last-child{
+	flex: 1;
+}
+
+.bank-activity #setting .bank-activity-head .bank-activity-content{
+	display: flex;
+	display: -webkit-flex;
+}
+
+.bank-activity #setting #AddressTxt{
+	width: auto;
+	max-width: 81px;
+}
+
+.bank-activity #setting .bank-activity-content input.bank-activity-txtsearch{
+	width: 100%;
+	max-width: none;
+}
+
 .bank-activity-content span{
 	float: left;
 	width: 20%;
