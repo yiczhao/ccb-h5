@@ -1,12 +1,7 @@
-FROM kssz/java:8u92-jre-alpine
+FROM kssz/nginx
 MAINTAINER chenyongbing
 ARG KS_PROJECT_NAME
 ENV KS_PROJECT_NAME $KS_PROJECT_NAME
-ENV KS_PROJECT_PORT 8080
+ENV KS_PROJECT_PORT 80
 EXPOSE $KS_PROJECT_PORT
-RUN mkdir -p /data/$KS_PROJECT_NAME/bin && mkdir -p /data/$KS_PROJECT_NAME/logs
-
-COPY das-web/target/*.jar /data/$KS_PROJECT_NAME/libs/
-
-
-WORKDIR /data/$KS_PROJECT_NAME
+COPY * /usr/share/nginx/html/
