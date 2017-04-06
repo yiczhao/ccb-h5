@@ -119,16 +119,9 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 
 $('#SearchList .bank-icon-arrowleft').on('tap',function(){
 	if(shopBuffer.length>0){
-		var temph=$('#SearchList .mui-table-view li').eq(0).html();
-		$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
-		$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
-		var temp=shopBuffer[0];
-		shopBuffer[0]=shopBuffer[$(this).index()];
-		shopBuffer[$(this).index()]=temp;
-		//listBuffer=shopBuffer;
-		arrayBuffer=shopBuffer;
 		loadData(shopBuffer);
 	}else{
+		shopList('')
 		loadData(shopBuffer);
 	}
 	viewApi.back();
@@ -339,7 +332,7 @@ Array.prototype.unique = function(){
 
 //插入首字母
 function insertNumber() {
-    for (var i = 0; i < 25; i++) {
+    for (var i = 0; i < 26; i++) {
         (function (upperCaseNum, lowerCaseNum, doc) {
             var caseStr = '<li data-group="' + upperCaseNum + '" class="mui-table-view-divider mui-indexed-list-group">' + upperCaseNum + '</li>'
             var self = doc.find('li[data-tags^="' + lowerCaseNum + '"]');
