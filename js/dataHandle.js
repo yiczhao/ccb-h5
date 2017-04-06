@@ -34,7 +34,12 @@ $('.bank-type-select').on('tap', function(){
 $('.bank-type-select').on('tap', 'p', function(e){
 	$(this).parent().parent().addClass('mui-hidden').prev().text($(this).text()).parent().removeClass('active'); 
 	$('#bank-type-select > span').removeAttr('data-flag');
-	handleData($(this).attr('data-value'),listBuffer,2);	
+	if($('#bank-activity-txtsearch').val()==''){
+		handleData($(this).attr('data-value'),listBuffer,2);
+	}else{
+		handleData($(this).attr('data-value'),shopBuffer,2);
+	}
+		
 });
 
 $("#ActivityRule").on('tap', function() {

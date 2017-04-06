@@ -170,7 +170,7 @@
 								</div>
 							</div>
 					    </div>
-						<ul class="mui-table-view">
+						<ul class="mui-table-view" id="bank-data-list">
 							<li class="mui-table-view-cell mui-media" style="font-size: 14px;">
 								数据加载中...
 							</li>
@@ -339,7 +339,7 @@
 			setTimeout(function() {
 				var cells = document.getElementById('pullrefresh').querySelectorAll('.mui-table-view-cell');
 				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells >= arrayBuffer.length)); //参数为true代表没有更多数据了。
-				var table = document.getElementById('pullrefresh').querySelector('.mui-table-view');
+				var table = document.getElementById('bank-data-list');
 				var i = cells.length;
 				var len= i + 10;
 				if(len < arrayBuffer.length){

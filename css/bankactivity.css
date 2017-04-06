@@ -25,6 +25,7 @@ i,em{
 
 .bank-activity #setting .bank-activity-head .bank-activity-content a:last-child{
 	flex: 1;
+	-webkit-flex:1;
 }
 
 .bank-activity #setting .bank-activity-head .bank-activity-content{
