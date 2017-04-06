@@ -1,0 +1,12 @@
+FROM kssz/java:8u92-jre-alpine
+MAINTAINER chenyongbing
+ARG KS_PROJECT_NAME
+ENV KS_PROJECT_NAME $KS_PROJECT_NAME
+ENV KS_PROJECT_PORT 8080
+EXPOSE $KS_PROJECT_PORT
+RUN mkdir -p /data/$KS_PROJECT_NAME/bin && mkdir -p /data/$KS_PROJECT_NAME/logs
+
+COPY das-web/target/*.jar /data/$KS_PROJECT_NAME/libs/
+
+
+WORKDIR /data/$KS_PROJECT_NAME
