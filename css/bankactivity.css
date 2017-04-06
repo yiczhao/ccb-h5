@@ -257,20 +257,20 @@ i,em{
     padding: 0.15rem 0.28rem;
     text-align: center;
 }
-.bank-activity-footer span{
+.bank-activity-footer a{
 	line-height: 0.7rem;
 	border-radius:0.7rem ;
 	font-size: 0.28rem;
 	box-sizing: border-box;
 }
 
-.bank-activity-footer span:first-child{
+.bank-activity-footer a:first-child{
 	-webkit-flex: 1;
 	flex: 1;
 	border:1px solid #fff;
 	color: #fff;
 }
-.bank-activity-footer span:last-child{
+.bank-activity-footer a:last-child{
 	-webkit-flex: 2;
 	flex: 2;
 	background-color: #fff;
@@ -363,7 +363,7 @@ i,em{
 }
 .bank-rule-tips{
 	text-indent: 2em;
-	margin: 10px 0 15px 0 ;
+/*	margin: 10px 0 15px 0 ;*/
 }
 .bank-rule-list{
 	padding-left: 15px;
@@ -378,15 +378,15 @@ i,em{
 	margin-right: 7px;
 	background-color: #4b92e2;
 	position: absolute;
-	top: 9px;
+	top: 19px;
 	left: 0;
 }
 
 
 .alerttips{
 	display: none;
-	position: fixed;
-    z-index: 10000;
+	position: absolute;
+    z-index: 20001;
     top: 50%;
     left: 50%;
     overflow: hidden;
@@ -415,8 +415,10 @@ i,em{
 	position: relative;
     padding: 15px;
     border-radius: 13px 13px 0 0;
-    background: rgba(255,255,255,.95);
+    background: #fff;
     text-align: left;
+    height: 350px;
+    overflow: hidden;
 }
 .alert-title{
 	color: #4b92e2;
@@ -429,11 +431,12 @@ i,em{
     font-size: 14px;
     margin: 5px 0 0;
     height: 350px;
-    overflow-y: scroll;
+    position: relative;
 }
 .alert-text i {
     color: #4b92e2;
 }
+
 
 .alert-buttons {
     position: relative;
@@ -444,7 +447,7 @@ i,em{
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     justify-content: center;
-    background-color: rgba(255,255,255,.95);
+    background: #fff;
 }
 .alert-button{
 	display: block;
@@ -457,12 +460,13 @@ i,em{
 	color: #fff;
 	border-radius: 3px;
 	font-size: 15px;
+	text-align: center;
 }
 
 .alert-backdrop{
 	display: none;
-	position: fixed;
-    z-index: 998;
+	position: absolute;
+    z-index: 20000;
     top: 0;
     right: 0;
     bottom: 0;
@@ -471,4 +475,27 @@ i,em{
     transition-duration: 400ms;
     opacity: 1;
     background: rgba(0,0,0,.4);
+}
+
+
+#alertBox .mui-scroll-wrapper{
+	top:0px;
+	background: rgba(255,255,255,.95);
+	bottom: 35px;
+}
+#alertBox .mui-scroll{
+	background: rgba(255,255,255,.95);
+}
+#alertBox .mui-table-view{
+	background: rgba(255,255,255,.95);
+}
+#alertBox .mui-table-view-cell:after, #alertBox .mui-table-view:after{
+	height: 0px;
+}
+#alertBox .mui-table-view-cell{
+	background: rgba(255,255,255,.95);
+	color: #8f8f94;
+}
+#alertBox .mui-table-view-cell:last-child:before{
+	height: 5px;
 }
