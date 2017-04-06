@@ -188,7 +188,7 @@
 			<div class="mui-page-content AddressContent" >
 				<div id='list' class="mui-indexed-list">
 					<div class="mui-indexed-list-search mui-input-row mui-search">
-						<a class="mui-icon mui-icon-left-nav mui-action-back">返回</a>
+						<a class="bank-icon mui-action-back"></a>
 						<input type="search" id="citySearch" class="mui-input-clear mui-indexed-list-search-input" placeholder="输入城市名和拼音查询">
 					</div>
 					<div class="mui-indexed-list-bar">
@@ -251,7 +251,7 @@
 		<div id="SearchList" class="mui-page">
 			<div class="mui-page-content">
 				<div class="bank-activity-content">
-					<a href="#Address"><span class="mui-icon bank-icon-location AddressTxt">苏州</span></a>
+					<span class="bank-icon-arrowleft mui-action-back"></span>
 					<input type="text" class="bank-activity-txtsearch" id="searchShopTxt" placeholder="请输入商户名" />
 					<em id="shopIcon" class="mui-icon mui-icon-clear mui-hidden"></em>
 				</div>
@@ -348,7 +348,7 @@
 		function pullupRefresh() {
 			setTimeout(function() {
 				var cells = document.getElementById('pullrefresh').querySelectorAll('.mui-table-view-cell');
-				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells >= arrayBuffer.length)); //参数为true代表没有更多数据了。
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((cells.length >= arrayBuffer.length)); //参数为true代表没有更多数据了。
 				var table = document.getElementById('pullrefresh').querySelector('.mui-table-view');
 				var i = cells.length;
 				var len= i + 10;
@@ -366,7 +366,12 @@
 					_html+='<p class="mui-ellipsis bank-icon-location">'+ arrayBuffer[i].MerchantAddress +'</p>';
 					_html+='</div>';
 					_html+='<div class="bank-content-right">';
-					_html+='<span>'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
+					if(arrayBuffer[i].MerchantDiscountRate<10){
+						_html+='<span>'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
+					}else{
+						_html+='<span class="bank-hidden">'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
+					}
+					
 					_html+='<span class="bank-card">建行龙卡</span>';
 					_html+='</div>';
 					_html+='</a>';

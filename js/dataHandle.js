@@ -1,9 +1,9 @@
-var listArray=new Array();
+var listArray=new Array();//初始数据
 var listBuffer = [];
 var selectBuffer =[];
-var arrayBuffer = [];
-var cityBuffer = [];
-var shopBuffer =[];
+var arrayBuffer = [];//城市无条件搜索数据
+var cityBuffer = [];//城市排序数据
+var shopBuffer =[];//商户搜索发数据
 //获取定位
 getLoction();
 //getData()
@@ -47,17 +47,19 @@ $('.alert-button').on('tap',function(){
 
 
 
-
+//地址切换
 $('.AddressTxt').on('tap',function(){
 	if($('#AddressTxt').attr('data-flag')=="false"){
 		insertNumber();
 		$('#AddressTxt').attr('data-flag','true');
 	}
-	$('#citySearch').val('').focus().parent().removeClass('mui-active');
+	$('#citySearch').val('').parent().removeClass('mui-active');
 	$('#bank-type-select .mui-scroll-wrapper').addClass('mui-hidden');
 	indexedList.search('');
 });
 
+
+//地址搜索
 $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
 	handleData($(this).attr('data-value'),listArray,1);
@@ -83,6 +85,7 @@ $('#Address .mui-city-list').on('tap','span',function(){
 })
 
 
+//商户搜索
 $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
 		var temph=$('#SearchList .mui-table-view li').eq(0).html();
@@ -91,7 +94,8 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 		var temp=shopBuffer[0];
 		shopBuffer[0]=shopBuffer[$(this).index()];
 		shopBuffer[$(this).index()]=temp;
-		listBuffer=shopBuffer;
+		//listBuffer=shopBuffer;
+		arrayBuffer=shopBuffer;
 		loadData(shopBuffer);
 	}else{
 		handleData(localStorage.getItem('city'),listArray,1);
@@ -180,7 +184,7 @@ function shopList(keys){
    var keyword = (keys || '');
    shopBuffer=[];
    if(keyword){
-   	   listBuffer.forEach(function(item){
+   	    listBuffer.forEach(function(item){
 			if(keyword && item.StoreName.indexOf(keyword) > -1 ){
 				shopBuffer.push(item);
 			}
@@ -188,14 +192,16 @@ function shopList(keys){
 	    var shopHtml='';
 	    if(shopBuffer.length>0){
 	    	shopBuffer.forEach(function(shop){
-		   	   shopHtml+='<li class="mui-table-view-cell shop-action-back">'+ shop.StoreName +'<span class="mui-pull-right">约1个结果</span></li>'
+		   	   shopHtml+='<li class="mui-table-view-cell shop-action-back">'+ shop.StoreName +'</li>'
 		    });
 	    }else{
-	    	shopHtml='<li class="mui-table-view-cell mui-action-back">暂无数据！</li>'
+	    	shopBuffer=[];
+	    	shopHtml='<li class="mui-table-view-cell shop-action-back">暂无数据！</li>'
 	    }
 	    $('#SearchList .mui-table-view').empty().append(shopHtml);
    }else{
-   	    $('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
+   	    shopBuffer=listBuffer;
+   	    $('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell shop-action-back">无搜索关键字！</li>');
    }
 }
 
@@ -249,7 +255,11 @@ function loadData(data){
 			_strHtml+='<p class="mui-ellipsis bank-icon-location">'+ _data[i].MerchantAddress +'</p>';
 			_strHtml+='</div>';
 			_strHtml+='<div class="bank-content-right">';
-			_strHtml+='<span>'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
+			if(_data[i].MerchantDiscountRate<10){
+				_strHtml+='<span>'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
+			}else{
+				_strHtml+='<span class="bank-hidden">'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
+			}
 			_strHtml+='<span class="bank-card">建行龙卡</span>';
 			_strHtml+='</div>';
 			_strHtml+='</a>';
