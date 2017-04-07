@@ -1,6 +1,8 @@
 var listArray=new Array();//初始数据
 var listBuffer = [];
-var selectBuffer =[];
+var selectOptions = ['特色餐饮','时尚购物','生活服务','精品酒店','休闲娱乐','运动健身','美容养生','母婴亲子','旅游出行','家电数码','教育培训'];
+var selectOption = [];
+var selectBuffer = [];
 var arrayBuffer = [];//城市无条件搜索数据
 var cityBuffer = [];//城市排序数据
 var shopBuffer =[];//商户搜索发数据
@@ -43,13 +45,13 @@ $('.bank-type-select').on('tap', 'p', function(e){
 });
 
 $("#ActivityRule").on('tap', function() {
-	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px)')
+	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
 	$('.alert-backdrop,.alerttips').show()
 });
 
 $('.alert-button').on('tap',function(){
 	$('.alert-backdrop,.alerttips').hide();
-	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px)');
+	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
 })
 
 
@@ -70,6 +72,7 @@ $('.AddressTxt').on('tap',function(){
 $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
 	handleData($(this).attr('data-value'),listArray,1);
+	typeSelect();
 	$('.AddressTxt').text($(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')));
 	$('#searchShopTxt').val('');
 	$('#bank-activity-txtsearch').val('');
@@ -82,6 +85,7 @@ $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 $('#Address .mui-city-list').on('tap','span',function(){
 	localStorage.setItem('city',$(this).text())
 	handleData($(this).text(),listArray,1);
+	typeSelect();
 	$('.AddressTxt').text($(this).text());
 	$('#searchShopTxt').val('');
 	$('#bank-activity-txtsearch').val('');
@@ -115,12 +119,13 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 $('#SearchList .bank-icon-arrowleft').on('tap',function(){
 	if(shopBuffer.length>0){
 		loadData(shopBuffer);
+		$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
 	}else{
 		shopList('')
 		loadData(shopBuffer);
 	}
 	viewApi.back();
-	$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
+
 	$('#bank-type-select>span').text('全部分类');
 })
 
@@ -193,6 +198,7 @@ function getData(){
 				citySort(listArray);
 			}
 			handleData(localStorage.getItem('city'),listArray,1);
+			typeSelect();
 		},
 		error:function(){
 			
@@ -217,12 +223,12 @@ function shopList(keys){
 		    });
 	    }else{
 	    	shopBuffer=[];
-	    	shopHtml='<li class="mui-table-view-cell shop-action-back">暂无数据！</li>'
+	    	shopHtml='<li class="mui-table-view-cell">暂无数据！</li>'
 	    }
 	    $('#SearchList .mui-table-view').empty().append(shopHtml);
    }else{
    	    shopBuffer=listBuffer;
-   	    $('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell shop-action-back">无搜索关键字！</li>');
+   	    $('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell">无搜索关键字！</li>');
    }
 }
 
@@ -263,6 +269,7 @@ function handleData(keys,data,typeFun){
 function loadData(data){
 	var _data= (data || '');
 	$('#pullrefresh .mui-table-view').empty();
+	mui('#pullrefresh').pullRefresh().refresh(true);
 	if(_data.length>0){
 		for (var i = 0; i < _data.length; i++) {
 			if (i > 9){
@@ -285,11 +292,13 @@ function loadData(data){
 			_strHtml+='</div>';
 			_strHtml+='</a>';
 			_strHtml+='</li>';
-			$('#pullrefresh .mui-table-view').append(_strHtml).parent().css("transform", "translate3d(0px, 0px, 0px)");
-		}
 
+			$('#pullrefresh .mui-table-view').append(_strHtml);
+		    mui('#pullrefresh').pullRefresh().scrollTo(0,0,100);
+		}
 	}else{
-		$('#pullrefresh .mui-table-view').append('<li class="mui-table-view-cell mui-media" style="font-size:14px">暂无数据！</li>').parent().css("transform", "translate3d(0px, 0px, 0px)")
+		$('#pullrefresh .mui-table-view').append('<li class="mui-table-view-cell mui-media" style="font-size:14px">暂无数据！</li>');
+	    mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)
 	}
 
 }
@@ -320,7 +329,6 @@ Array.prototype.unique = function(){
 	            hash[elem] = true;
 	        }
     	}
-    	
     })
     return result;
 }
@@ -355,4 +363,23 @@ function by(name){
             throw ("error");
         }
     }
+}
+
+
+//分类检索
+function typeSelect(){
+	selectOption=[];
+	var optionArray = [];
+	arrayBuffer.forEach(function(item,index){
+		if(!optionArray[item.MerchantNumber]){
+			optionArray[item.MerchantNumber] = true;
+			selectOption.push(item.MerchantNumber);
+		}
+	});
+	var _li='<p data-value="" class="bank-type-item">全部分类</p>';
+	for(var i=0; i < selectOption.length; i++){
+		_li+='<p data-value="'+ selectOption[i] +'" class="bank-type-item">'+selectOptions[selectOption[i]-1]+'</p>' 
+	}
+	$('#bank-type-select .mui-scroll').empty().html(_li).css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
+	$('#bank-type-select .mui-scroll-wrapper').css('height',(selectOption.length+1)*0.7+'rem')
 }
