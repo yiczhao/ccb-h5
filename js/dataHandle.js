@@ -65,6 +65,7 @@ $('.AddressTxt').on('tap',function(){
 
 //子地址页面城市列表搜索
 $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
+	shopBuffer=[];
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
 	handleData($(this).attr('data-value'),listArray,1);
 	typeSelect();
@@ -72,12 +73,13 @@ $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	$('#searchShopTxt').val('');
 	$('#bank-activity-txtsearch').val('');
 	$('#shopIcon').addClass('mui-hidden');
-	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
+	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell">暂无数据！</li>');
 	$('#bank-type-select>span').text('全部分类');
 	viewApi.back();
 })
 //子地址页面地址热门城市点击搜索
 $('#Address .mui-city-list').on('tap','span',function(){
+	shopBuffer=[];
 	localStorage.setItem('city',$(this).text())
 	handleData($(this).text(),listArray,1);
 	typeSelect();
@@ -85,7 +87,7 @@ $('#Address .mui-city-list').on('tap','span',function(){
 	$('#searchShopTxt').val('');
 	$('#bank-activity-txtsearch').val('');
 	$('#shopIcon').addClass('mui-hidden');
-	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell mui-action-back">暂无数据！</li>');
+	$('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell">暂无数据！</li>');
 	$('#bank-type-select>span').text('全部分类');
 	viewApi.back();
 })
@@ -99,12 +101,18 @@ $('#bank-activity-txtsearch').on('tap',function(){
 //商户搜索-查询结果点击返回主页面
 $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
-		var temph=$('#SearchList .mui-table-view li').eq(0).html();
-		$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
-		$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
-		var temp=shopBuffer[0];
-		shopBuffer[0]=shopBuffer[$(this).index()];
-		shopBuffer[$(this).index()]=temp;
+		var temp=shopBuffer[$(this).index()];
+		shopBuffer.splice($(this).index(),1);
+		shopBuffer.unshift(temp);
+		var temph=$('#SearchList .mui-table-view li').eq($(this).index()).html();
+		$('#SearchList .mui-table-view li').eq($(this).index()).remove();
+		$('#SearchList .mui-table-view').prepend('<li class="mui-table-view-cell shop-action-back">'+ temph +'</li>');
+		//shopBuffer.unshift(temph);
+		//$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
+		//$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
+
+		//shopBuffer[0]=shopBuffer[$(this).index()];
+		//shopBuffer[$(this).index()]=temp;
 		//listBuffer=shopBuffer;
 		arrayBuffer=shopBuffer;
 		loadData(shopBuffer);
@@ -240,7 +248,7 @@ function shopList(keys){
 		    });
 	    }else{
 	    	shopBuffer=[];
-	    	shopHtml='<li class="mui-table-view-cell" >暂无数据！</li>'
+	    	shopHtml='<li class="mui-table-view-cell">暂无数据！</li>'
 	    }
 	    $('#SearchList .mui-table-view').empty().append(shopHtml);
    }else{
