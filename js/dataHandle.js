@@ -3,22 +3,21 @@ var listBuffer = [];
 var selectOptions = ['特色餐饮','时尚购物','生活服务','精品酒店','休闲娱乐','运动健身','美容养生','母婴亲子','旅游出行','家电数码','教育培训'];
 var selectOption = [];
 var selectBuffer = [];
-var arrayBuffer = [];//城市无条件搜索数据
 var cityBuffer = [];//城市排序数据
-var shopBuffer =[];//商户搜索发数据
+var arrayBuffer = [];//城市无条件搜索数据
+var shopBuffer =[];//商户搜索数据
 //获取定位
 getLoction();
-//getData()
 
+
+//下拉菜单隐藏
 $('body').on('tap','.mui-page-content',function(){
 	if($('#bank-type-select > span').attr('data-flag')){
 		$('#bank-type-select').removeClass('active').children('.mui-scroll-wrapper').addClass('mui-hidden');
 		$('#bank-type-select > span').removeAttr('data-flag');
 	}
 });
-
-
-
+//下拉菜单显示
 $('.bank-type-select').on('tap', function(){
 	var _this=$(this).find('span')
 	if(_this.next().hasClass('mui-hidden')){
@@ -29,34 +28,30 @@ $('.bank-type-select').on('tap', function(){
 	}
 
 });
-
-
-
-
+//下拉菜单选择option搜索数据
 $('.bank-type-select').on('tap', 'p', function(e){
 	$(this).parent().parent().addClass('mui-hidden').prev().text($(this).text()).parent().removeClass('active'); 
-	$('#bank-type-select > span').removeAttr('data-flag');
+	$('#bank-type-select > span').attr('data-value',$(this).attr('data-value')).removeAttr('data-flag');
 	if($('#bank-activity-txtsearch').val()==''){
 		handleData($(this).attr('data-value'),listBuffer,2);
 	}else{
 		handleData($(this).attr('data-value'),shopBuffer,2);
-	}
-		
+	}	
 });
 
+
+//活动规则弹窗
 $("#ActivityRule").on('tap', function() {
-	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
-	$('.alert-backdrop,.alerttips').show()
+	mui('#alertBox .mui-scroll-wrapper').scroll().scrollTo(0,0,0);
+	$('.alert-backdrop,.alerttips').show();
 });
-
+//活动规则弹窗隐藏
 $('.alert-button').on('tap',function(){
 	$('.alert-backdrop,.alerttips').hide();
-	$('#alertBox .mui-scroll').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
 })
 
 
-
-//地址切换
+//首页地址文字点击切换
 $('.AddressTxt').on('tap',function(){
 	if($('#AddressTxt').attr('data-flag')=="false"){
 		insertNumber();
@@ -68,7 +63,7 @@ $('.AddressTxt').on('tap',function(){
 });
 
 
-//地址搜索
+//子地址页面城市列表搜索
 $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
 	handleData($(this).attr('data-value'),listArray,1);
@@ -81,7 +76,7 @@ $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	$('#bank-type-select>span').text('全部分类');
 	viewApi.back();
 })
-
+//子地址页面地址热门城市点击搜索
 $('#Address .mui-city-list').on('tap','span',function(){
 	localStorage.setItem('city',$(this).text())
 	handleData($(this).text(),listArray,1);
@@ -95,8 +90,13 @@ $('#Address .mui-city-list').on('tap','span',function(){
 	viewApi.back();
 })
 
+//input框焦点
+$('#bank-activity-txtsearch').on('tap',function(){
+	$(this).blur();
+})
 
-//商户搜索
+
+//商户搜索-查询结果点击返回主页面
 $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
 		var temph=$('#SearchList .mui-table-view li').eq(0).html();
@@ -113,33 +113,42 @@ $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	}
 	viewApi.back();
 	$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
-	$('#bank-type-select>span').text('全部分类');
+	$('#bank-type-select>span').text('全部分类').attr('data-value','');
 });
-
+//商户搜索子页面按钮点击返回
 $('#SearchList .bank-icon-arrowleft').on('tap',function(){
 	if(shopBuffer.length>0){
+		arrayBuffer=shopBuffer;
 		loadData(shopBuffer);
 		$('#bank-activity-txtsearch').val($('#searchShopTxt').val());
 	}else{
-		shopList('')
-		loadData(shopBuffer);
+		handleData('',listBuffer,1);
 	}
+	$('#searchShopTxt').blur();
+	$('#bank-type-select>span').text('全部分类').attr('data-value','');	
 	viewApi.back();
-
-	$('#bank-type-select>span').text('全部分类');
 })
-
 
 
 
 //获取定位
 function getLoction(){
-	if(localStorage.getItem('city')&&localStorage.getItem('lo-city')==localStorage.getItem('city')){
+	$('.loading,.alert-backdrop').show();
+	if(localStorage.getItem('city')&&localStorage.getItem('lo-city')==localStorage.getItem('city')&&sessionStorage.getItem('addComp')){
 	   $('.AddressTxt').text(localStorage.getItem('city'));
 	   getData();
 	   return false;
 	}
-	var geolocation = new BMap.Geolocation();
+	try{
+		var geolocation = new BMap.Geolocation();
+	}catch(e){
+		$('.AddressTxt').text('全国'); 
+		$('#locationGps').text('GPS定位');
+		$('#locationTxt').removeClass('mui-hidden');
+	    sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
+	    getData(); 
+	    return false;
+	}
 	geolocation.getCurrentPosition(function(r) {
 		if (this.getStatus() == BMAP_STATUS_SUCCESS) {
 			var gc = new BMap.Geocoder();
@@ -154,16 +163,24 @@ function getLoction(){
 				$('#locationTxt').removeClass('mui-hidden');
 				localStorage.setItem('city',cityTxt);
 				localStorage.setItem('lo-city',cityTxt);
+				sessionStorage.setItem('addComp',JSON.stringify({"lat":lat,"lng":lng}));
 				getData();
 			});
 		}else{
 		    $('.AddressTxt').text('全国'); 
+		    $('#locationGps').text('GPS定位');
+		    $('#locationTxt').removeClass('mui-hidden');
+		    sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
 		    getData();
 		}
 		
 	},function(error){
 		var innerHTML='';
+		$('.AddressTxt').text('全国'); 
+		$('#locationGps').text('GPS定位');
+		$('#locationTxt').removeClass('mui-hidden');
 		getData();
+		sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
 		switch(error.code) { 
 	        case error.PERMISSION_DENIED: 
 	            innerHTML="用户拒绝对获取地理位置的请求。" 
@@ -177,15 +194,14 @@ function getLoction(){
 	        case error.UNKNOWN_ERROR: 
 	            innerHTML="未知错误。" 
 	            break; 
-	    } 
-
+	   } 
 		mui.alert(innerHTML);
 	});
 	//更新数据
 
 }
 
-//获取原始数据
+//初始化数据
 function getData(){
 	$.ajax({
 		type:"get",
@@ -199,9 +215,10 @@ function getData(){
 			}
 			handleData(localStorage.getItem('city'),listArray,1);
 			typeSelect();
+			$('.loading,.alert-backdrop').hide();
 		},
 		error:function(){
-			
+			$('.loading,.alert-backdrop').hide();
 		}
 	});
 }
@@ -223,28 +240,37 @@ function shopList(keys){
 		    });
 	    }else{
 	    	shopBuffer=[];
-	    	shopHtml='<li class="mui-table-view-cell">暂无数据！</li>'
+	    	shopHtml='<li class="mui-table-view-cell" >暂无数据！</li>'
 	    }
 	    $('#SearchList .mui-table-view').empty().append(shopHtml);
    }else{
-   	    shopBuffer=listBuffer;
+   	    shopBuffer=[];
    	    $('#SearchList .mui-table-view').empty().append('<li class="mui-table-view-cell">无搜索关键字！</li>');
    }
 }
 
+
+//关键字处理数据
 function handleData(keys,data,typeFun){
+	var addComp=JSON.parse(sessionStorage.getItem('addComp'));
+	if(addComp == null ){
+		addComp={"lat":0,"lng":0}
+	}
 	var keyword = (keys || '');
     arrayBuffer=[];
 	if(keyword){
 		if(typeFun == 1){
-			data.forEach(function(item){
+			data.forEach(function(item,index){
 				if(keyword && item.TheCity.indexOf(keyword) > -1 ){
+					item.Distance= getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat);
+					//Object.assign(item,{"Distance":getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat)});
 					arrayBuffer.push(item);
 				}
 			});
 		}else if(typeFun == 2){
-			data.forEach(function(item){
+			data.forEach(function(item,index){
 				if(keyword && item.MerchantNumber==keyword){
+					//Object.assign(item,{"Distance":index})
 					arrayBuffer.push(item);
 				}
 			});			
@@ -252,7 +278,7 @@ function handleData(keys,data,typeFun){
 	}else{
 		arrayBuffer = data;
 	}
-
+    arrayBuffer=arrayBuffer.sort(by("Distance"))
 	if(typeFun == 1){
 		listBuffer = arrayBuffer;
 		console.log(listBuffer);
@@ -265,8 +291,9 @@ function handleData(keys,data,typeFun){
 }
 
 
-//加载数据
+//页面渲染数据
 function loadData(data){
+	console.log(data);
 	var _data= (data || '');
 	$('#pullrefresh .mui-table-view').empty();
 	mui('#pullrefresh').pullRefresh().refresh(true);
@@ -288,7 +315,7 @@ function loadData(data){
 			}else{
 				_strHtml+='<span class="bank-hidden">'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
 			}
-			_strHtml+='<span class="bank-card">建行龙卡</span>';
+			_strHtml+='<span class="bank-card">建行信用卡</span>';
 			_strHtml+='</div>';
 			_strHtml+='</a>';
 			_strHtml+='</li>';
@@ -297,8 +324,8 @@ function loadData(data){
 		    mui('#pullrefresh').pullRefresh().scrollTo(0,0,100);
 		}
 	}else{
-		$('#pullrefresh .mui-table-view').append('<li class="mui-table-view-cell mui-media" style="font-size:14px">暂无数据！</li>');
-	    mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)
+		$('#pullrefresh .mui-table-view').append('<li class="mui-table-view-cell mui-media" id="NoData" style="font-size:14px">暂无数据！</li>');
+	    mui('#pullrefresh').pullRefresh() .scrollTo(0,0,100)
 	}
 
 }
@@ -382,4 +409,21 @@ function typeSelect(){
 	}
 	$('#bank-type-select .mui-scroll').empty().html(_li).css('transform','translate3d(0px, 0px, 0px) translateZ(0px)').next().children('.mui-scrollbar-indicator').css('transform','translate3d(0px, 0px, 0px) translateZ(0px)');
 	$('#bank-type-select .mui-scroll-wrapper').css('height',(selectOption.length+1)*0.7+'rem')
+}
+
+
+
+//地理位置两点距离计算
+function getDistance(longitude1,latitude1,longitude2,latitude2) {
+    // 维度
+    var lat1 = (Math.PI / 180) * latitude1;
+    var lat2 = (Math.PI / 180) * latitude2;
+    // 经度
+    var lon1 = (Math.PI / 180) * longitude1;
+    var lon2 = (Math.PI / 180) * longitude2;
+    // 地球半径
+    var R = 6371;
+    // 两点间距离 km，如果想要米的话，结果*1000就可以了
+    var d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
+    return d * 1000;
 }

@@ -79,7 +79,7 @@
 
 .mui-indexed-list-search .bank-icon{
 	display: block;
-	border: 0.01rem solid #fff;
+	border: 1px solid #fff;
     border-radius: 50%;
     line-height: 0.95rem;
     height: 0.5rem;
