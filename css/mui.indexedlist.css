@@ -75,6 +75,7 @@
 	padding-top: 0.1.5rem ;
 	padding-bottom: 0.1.5rem ;
 	font-size: 0.3rem;
+	padding-right: 25px;
 }
 
 .mui-indexed-list-search .bank-icon{
@@ -198,7 +199,7 @@
 	top:52%;
 }
 .mui-input-row.mui-search .mui-icon-clear{
-	top: 0.3rem;
+	top: 0.32rem;
     right: 18px;
     color: #FF942C;
     font-size: 0.4rem;

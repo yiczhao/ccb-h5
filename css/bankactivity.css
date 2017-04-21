@@ -312,7 +312,8 @@ i,em{
 }
 .bank-activity-content #searchShopTxt{
 	float: right;
-	max-width: 90%
+	max-width: 90%;
+	padding-right: 30px;
 }
 
 #SearchList .mui-table-view .mui-table-view-cell{
