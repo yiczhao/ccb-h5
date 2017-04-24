@@ -101,12 +101,13 @@ $('#bank-activity-txtsearch').on('tap',function(){
 //商户搜索-查询结果点击返回主页面
 $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
+		shopBuffer.sort(by("Distance"));
 		var temp=shopBuffer[$(this).index()];
 		shopBuffer.splice($(this).index(),1);
 		shopBuffer.unshift(temp);
-		var temph=$('#SearchList .mui-table-view li').eq($(this).index()).html();
-		$('#SearchList .mui-table-view li').eq($(this).index()).remove();
-		$('#SearchList .mui-table-view').prepend('<li class="mui-table-view-cell shop-action-back">'+ temph +'</li>');
+		//var temph=$('#SearchList .mui-table-view li').eq($(this).index()).html();
+		//$('#SearchList .mui-table-view li').eq($(this).index()).remove();
+		//$('#SearchList .mui-table-view').prepend('<li class="mui-table-view-cell shop-action-back">'+ temph +'</li>');
 		//shopBuffer.unshift(temph);
 		//$('#SearchList .mui-table-view li').eq(0).html($('#SearchList .mui-table-view li').eq($(this).index()).html());
 		//$('#SearchList .mui-table-view li').eq($(this).index()).html(temph);
