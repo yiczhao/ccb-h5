@@ -101,7 +101,7 @@ $('#bank-activity-txtsearch').on('tap',function(){
 //商户搜索-查询结果点击返回主页面
 $('#SearchList .mui-scroll-wrapper').on('tap','.shop-action-back',function(){
 	if(shopBuffer.length>0){
-		shopBuffer.sort(by("Distance"));
+		shopBuffer.sort(by("Distance")); 
 		var temp=shopBuffer[$(this).index()];
 		shopBuffer.splice($(this).index(),1);
 		shopBuffer.unshift(temp);
