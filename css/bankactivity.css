@@ -364,8 +364,26 @@ i,em{
 .bank-rule-content{
 }
 .bank-rule-tips{
-	text-indent: 2em;
-/*	margin: 10px 0 15px 0 ;*/
+	/*text-indent: 2em;
+	margin: 10px 0 15px 0 ;*/
+}
+
+#alertBox .bank-rule-active{
+	color: #4b92e2;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;	
+    padding: 0 15px;
+}
+#alertBox .bank-rule-active:before, .bank-rule-active:after {
+	position: relative !important;
+    content: '';
+    display: inline-block;
+    height: 1px !important;
+    width: 30px;
+    background-color: #c8c8c8;
+    margin: 0 8px;
+    vertical-align: middle;
 }
 .bank-rule-list{
 	padding-left: 15px;
