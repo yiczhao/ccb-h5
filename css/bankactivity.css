@@ -370,10 +370,10 @@ i,em{
 
 #alertBox .bank-rule-active{
 	color: #4b92e2;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     text-align: center;	
-    padding: 0 15px;
+    padding: 5px 15px;
 }
 #alertBox .bank-rule-active:before, .bank-rule-active:after {
 	position: relative !important;
