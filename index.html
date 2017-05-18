@@ -377,15 +377,6 @@
 					_html+= arrayBuffer[i].StoreName;	
 					_html+='<p class="mui-ellipsis bank-icon-location">'+ arrayBuffer[i].MerchantAddress +'</p>';
 					_html+='</div>';
-					_html+='<div class="bank-content-right">';
-					if(arrayBuffer[i].MerchantDiscountRate<10){
-						_html+='<span>'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
-					}else{
-						_html+='<span class="bank-hidden">'+ arrayBuffer[i].MerchantDiscountRate +'<i>折</i></span>';
-					}
-					
-					_html+='<span class="bank-card">建行信用卡</span>';
-					_html+='</div>';
 					_html+='</a>';
 					li.innerHTML = _html;
 					table.appendChild(li);
