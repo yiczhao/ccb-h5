@@ -318,14 +318,6 @@ function loadData(data){
 			_strHtml+=_data[i].StoreName;	
 			_strHtml+='<p class="mui-ellipsis bank-icon-location">'+ _data[i].MerchantAddress +'</p>';
 			_strHtml+='</div>';
-			_strHtml+='<div class="bank-content-right">';
-			if(_data[i].MerchantDiscountRate<10){
-				_strHtml+='<span>'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
-			}else{
-				_strHtml+='<span class="bank-hidden">'+ _data[i].MerchantDiscountRate +'<i>折</i></span>';
-			}
-			_strHtml+='<span class="bank-card">建行信用卡</span>';
-			_strHtml+='</div>';
 			_strHtml+='</a>';
 			_strHtml+='</li>';
 
