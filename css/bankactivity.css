@@ -234,7 +234,8 @@ i,em{
 	overflow: hidden;
 	text-overflow: clip;
 	white-space: nowrap;
-	
+	position: relative;
+    left: -5px;
 }
 
 .bank-content-right span.bank-hidden,.bank-content-right span.bank-hidden i{
