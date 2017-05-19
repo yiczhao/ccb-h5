@@ -67,7 +67,7 @@ $('.AddressTxt').on('tap',function(){
 $('#Address .mui-indexed-list').on('tap','.bank-action-back',function(){
 	shopBuffer=[];
 	localStorage.setItem('city',$(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')))
-	handleData($(this).attr('data-value'),listArray,1);
+	handleData(localStorage.getItem('city'),listArray,1);
 	typeSelect();
 	$('.AddressTxt').text($(this).attr('data-value').substr(0,$(this).attr('data-value').indexOf('市')));
 	$('#searchShopTxt').val('');
@@ -270,11 +270,14 @@ function handleData(keys,data,typeFun){
 	if(keyword){
 		if(typeFun == 1){
 			data.forEach(function(item,index){
-				if(keyword && item.TheCity.indexOf(keyword) > -1 ){
-					item.Distance= getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat);
-					//Object.assign(item,{"Distance":getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat)});
+				if((keyword+'市') === item.TheCity){
 					arrayBuffer.push(item);
 				}
+				// if(keyword && item.TheCity.indexOf(keyword) > -1 ){
+				// 	item.Distance= getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat);
+				// 	//Object.assign(item,{"Distance":getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat)});
+				// 	arrayBuffer.push(item);
+				// }
 			});
 		}else if(typeFun == 2){
 			data.forEach(function(item,index){
