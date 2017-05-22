@@ -271,6 +271,7 @@ function handleData(keys,data,typeFun){
 		if(typeFun == 1){
 			data.forEach(function(item,index){
 				if((keyword+'市') === item.TheCity){
+					item.Distance= getDistance(addComp.lng,addComp.lat,item.Lng,item.Lat);
 					arrayBuffer.push(item);
 				}
 				// if(keyword && item.TheCity.indexOf(keyword) > -1 ){
