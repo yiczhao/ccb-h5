@@ -404,8 +404,7 @@ i,em{
 }
 
 
-.alerttips,.loading{
-	display: none;
+.alerttips{
 	position: absolute;
     z-index: 20001;
     top: 50%;
@@ -465,7 +464,6 @@ i,em{
 	position: relative;
     padding: 15px;
     border-radius: 13px 13px 0 0;
-    background: #fff;
     text-align: left;
     height: 350px;
     overflow: hidden;
@@ -514,7 +512,6 @@ i,em{
 }
 
 .alert-backdrop{
-	display: none;
 	position: absolute;
     z-index: 20000;
     top: 0;
