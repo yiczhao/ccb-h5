@@ -270,9 +270,9 @@
 		<div id="alertBox" class="alerttips">
 			<div class="alert-inner">
 				<div><img src="./img/info.png" style="width: 80px;display: block;margin: 0 auto;"></div>
-				<div style="background: #fff;padding: 20px;padding-top: 50px;margin-top: -35px;">
+				<div style="background: #fff;padding: 20px;padding-top: 60px;margin-top: -35px;">
 					<p style="font-size: 20px;color: #000;font-weight: 400;">尊敬的客户：</p>
-					<p style="text-indent: 40px;font-size: 20px;color: #000;line-height: 50px;">您好！本次"龙卡信用卡百城万店天天惠"
+					<p style="text-indent: 40px;font-size: 20px;color: #000;line-height: 59px;">您好！本次"龙卡信用卡百城万店天天惠"
 					<span style="font-size: 26px;color: red;">活动名额已满</span>，感谢参与！</p>
 				</div>
 			</div>
@@ -301,6 +301,72 @@
 			}
 		});
 	
+
+//获取定位
+function getLoction(){
+	if(localStorage.getItem('city')&&localStorage.getItem('lo-city')==localStorage.getItem('city')&&sessionStorage.getItem('addComp')){
+	   $('.AddressTxt').text(localStorage.getItem('city'));
+	   return false;
+	}
+	try{
+		var geolocation = new BMap.Geolocation();
+	}catch(e){
+		$('.AddressTxt').text('全国'); 
+		$('#locationGps').text('GPS定位');
+		$('#locationTxt').removeClass('mui-hidden');
+	    sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
+	    getData(); 
+	    return false;
+	}
+	geolocation.getCurrentPosition(function(r) {
+		if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+			var gc = new BMap.Geocoder();
+			gc.getLocation(r.point, function(rs) {
+				var addComp = rs.addressComponents;
+				lng=rs.point.lng;
+				lat=rs.point.lat;
+				//addComp.province  addComp.city  addComp.district;
+				var cityTxt= addComp.city.substring(0,addComp.city.length-1);
+				$('.AddressTxt').text(cityTxt);
+				$('#locationGps').text('GPS定位');
+				$('#locationTxt').removeClass('mui-hidden');
+				localStorage.setItem('city',cityTxt);
+				localStorage.setItem('lo-city',cityTxt);
+				sessionStorage.setItem('addComp',JSON.stringify({"lat":lat,"lng":lng}));
+			});
+		}else{
+		    $('.AddressTxt').text('全国'); 
+		    $('#locationGps').text('GPS定位');
+		    $('#locationTxt').removeClass('mui-hidden');
+		    sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
+		}
+		
+	},function(error){
+		var innerHTML='';
+		$('.AddressTxt').text('全国'); 
+		$('#locationGps').text('GPS定位');
+		$('#locationTxt').removeClass('mui-hidden');
+		sessionStorage.setItem('addComp',JSON.stringify({"lat":0,"lng":0}));
+		switch(error.code) { 
+	        case error.PERMISSION_DENIED: 
+	            innerHTML="用户拒绝对获取地理位置的请求。" 
+	            break; 
+	        case error.POSITION_UNAVAILABLE: 
+	            innerHTML="位置信息是不可用的。" 
+	            break; 
+	        case error.TIMEOUT: 
+	            innerHTML="请求用户地理位置超时。" 
+	            break; 
+	        case error.UNKNOWN_ERROR: 
+	            innerHTML="未知错误。" 
+	            break; 
+	   } 
+		mui.alert(innerHTML);
+	});
+	//更新数据
+
+}
+getLoction()
 		//初始化单页view
 		var viewApi = mui('#app').view({
 			defaultPage: '#setting'

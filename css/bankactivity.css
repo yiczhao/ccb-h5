@@ -407,7 +407,7 @@ i,em{
 .alerttips{
 	position: absolute;
     z-index: 20001;
-    top: 50%;
+    top: 57%;
     left: 50%;
     overflow: hidden;
     width: 90%;
@@ -465,7 +465,6 @@ i,em{
     padding: 15px;
     border-radius: 13px 13px 0 0;
     text-align: left;
-    height: 350px;
     overflow: hidden;
 }
 .alert-title{
@@ -521,7 +520,7 @@ i,em{
     -webkit-transition-duration: 400ms;
     transition-duration: 400ms;
     opacity: 1;
-    background: rgba(0,0,0,.4);
+    background: rgba(0,0,0,.7);
 }
 
 
