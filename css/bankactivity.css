@@ -6,12 +6,12 @@ i,em{
 }
 
 .bank-activity .bank-activity-head {
-	height: 0.95rem;
+	height: 60px;
 }
 
 .bank-activity .bank-activity-head .bank-activity-content{
-	height: 0.95rem;
-	line-height: 0.95rem;
+	height: 60px;
+	line-height: 60px;
 	box-sizing: border-box;
 	padding: 0 0.28rem;
 	font-size: 0.3rem;
@@ -168,7 +168,7 @@ i,em{
 
 
 #setting .mui-page-content>.mui-scroll-wrapper{
-	top:0.95rem
+	top:60px
 }
 
 
@@ -244,8 +244,8 @@ i,em{
 
 .bank-activity-footer{
 	width: 100%;
-	height: 1rem;
-	line-height: 1rem;
+	height: 55px;
+	line-height: 55px;
 	background-image:-webkit-linear-gradient(to right, #4a91e3, #6dcdb2);
     background-image:linear-gradient(to right,#4a91e3, #6dcdb2);
     position: absolute;
@@ -289,7 +289,7 @@ i,em{
 
 /*搜索商户列表*/
 #SearchList .mui-page-content>.mui-scroll-wrapper{
-	top:0.95rem
+	top:60px
 }
 #SearchList .bank-activity-content{
 	height: 0.95rem;
@@ -407,7 +407,7 @@ i,em{
 .alerttips{
 	position: absolute;
     z-index: 20001;
-    top: 57%;
+    top: 50%;
     left: 50%;
     overflow: hidden;
     width: 90%;
@@ -419,6 +419,9 @@ i,em{
     opacity: 1;
     color: #000;
     border-radius: 13px;
+    height: 100%;
+    margin-bottom: -55px;
+    padding-bottom: 55px;
 }
 
 .loading span{
@@ -465,7 +468,9 @@ i,em{
     padding: 15px;
     border-radius: 13px 13px 0 0;
     text-align: left;
+    height: 100%;
     overflow: hidden;
+    padding-top: 20px;
 }
 .alert-title{
 	color: #4b92e2;
